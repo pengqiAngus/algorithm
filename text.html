@@ -1,37 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
-        function levelOrderTraversal(root) {
-                const result = []
-                const queue = [root];
-                if (!root) {
-                    return result
-                }
-                debugger;
-                while (queue.length > 0) {
-                    const levelSize = queue.length;
-                    const currentLevel = [];
-                    for (let i = 0; i < levelSize; i++) {
-                        const node = queue.shift();
-                        currentLevel.push(node.val);
-                        if (node.left) {
-                            queue.push(node.left)
-                        }
-                        if (node.right) {
-                            queue.push(node.right)
+        /**
+     * @param {string} s
+     * @param {string} t
+     * @return {string}
+     */
+ 
+       /**
+  * @param {string} s
+  * @param {string} t
+  * @return {string}
+  */
+        var minWindow = function (s, t) {
+            const map = {};
+            for (const i of t) {
+                map[i] = map[i] ? map[i] + 1 : 1;
+            }
+            let left = 0,
+                right = 0;
+            let minStart = 0,
+                minLen = Infinity;
+            let count = Object.keys(map).length;
+            while (right < s.length) {
+                if (count === 0) {
+                    if (right - left < minLen) {
+                        minLen = right - left;
+                        minStart = left;
+                    }
+                    const char = s[left];
+                    if (map[char] !== undefined) {
+                        map[char]++;
+                        if (map[char] > 0) {
+                            count++;
                         }
                     }
-                    result.push(currentLevel);
+                    left++;
+                } else {
+                    const char = s[right];
+                    if (map[char] !== undefined) {
+                        map[char]--;
+                        if (map[char] === 0) {
+                            count--;
+                        }
+                    }
+                    right++;
                 }
-                return result;
             }
-            levelOrderTraversal([3, 9, 20, null, null, 15, 7])
+            return minLen === Infinity ? "" : s.substring(minStart, minStart + minLen);
+        };
+
+        minWindow("ADOBECODEBANC", "ABC")
     </script>
 </body>
+
 </html>
