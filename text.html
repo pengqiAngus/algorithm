@@ -20,45 +20,46 @@
   * @param {string} t
   * @return {string}
   */
-        var minWindow = function (s, t) {
-            const map = {};
-            for (const i of t) {
-                map[i] = map[i] ? map[i] + 1 : 1;
-            }
+      var minWindow = function (s, t) {
             let left = 0,
                 right = 0;
-            let minStart = 0,
-                minLen = Infinity;
+            let minSize = Infinity,
+                minStart = 0;
+            const map = {};
+               for (const key of t) {
+              map[key] = map[key] ? map[key] + 1 : 1;
+          }
             let count = Object.keys(map).length;
+         
             while (right < s.length) {
-                if (count === 0) {
-                    if (right - left < minLen) {
-                        minLen = right - left;
+                const char = s[right];
+                if (t.includes(char)) {
+                    map[char]--;
+                    if (map[char] === 0) {
+                        count--;
+                    }
+                }
+                right++;
+                while (count === 0) {
+                    const char = s[left];
+                    if (minSize> right - left) {
+                           minSize = Math.min(minSize, right - left);
                         minStart = left;
                     }
-                    const char = s[left];
-                    if (map[char] !== undefined) {
+                 
+                    if (t.includes(char)) {
                         map[char]++;
                         if (map[char] > 0) {
                             count++;
                         }
                     }
                     left++;
-                } else {
-                    const char = s[right];
-                    if (map[char] !== undefined) {
-                        map[char]--;
-                        if (map[char] === 0) {
-                            count--;
-                        }
-                    }
-                    right++;
                 }
             }
-            return minLen === Infinity ? "" : s.substring(minStart, minStart + minLen);
+            return minSize === Infinity ? 0 : s.substring(minStart, minStart + minSize);
         };
 
-        minWindow("ADOBECODEBANC", "ABC")
+        minWindow("cabwefgewcwaefgcf", "cae")
     </script>
 </body>
 
