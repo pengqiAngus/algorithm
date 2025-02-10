@@ -20,46 +20,46 @@
   * @param {string} t
   * @return {string}
   */
-      var minWindow = function (s, t) {
-            let left = 0,
-                right = 0;
-            let minSize = Infinity,
-                minStart = 0;
-            const map = {};
-               for (const key of t) {
-              map[key] = map[key] ? map[key] + 1 : 1;
-          }
-            let count = Object.keys(map).length;
-         
-            while (right < s.length) {
-                const char = s[right];
-                if (t.includes(char)) {
-                    map[char]--;
-                    if (map[char] === 0) {
-                        count--;
-                    }
+    var minDepth = function (root) {
+            if (!root) {
+                return 0;
+            }
+            const queue = [[root, 1]]
+            while (queue.length > 0) {
+                const [root, n] = queue.shift();
+                if (!root?.left && !root?.right) {
+                    return n
                 }
-                right++;
-                while (count === 0) {
-                    const char = s[left];
-                    if (minSize> right - left) {
-                           minSize = Math.min(minSize, right - left);
-                        minStart = left;
-                    }
-                 
-                    if (t.includes(char)) {
-                        map[char]++;
-                        if (map[char] > 0) {
-                            count++;
-                        }
-                    }
-                    left++;
+                if (root?.left) {
+                    queue.push([root.left, n + 1]);
+                }
+                if (root?.right) {
+                    queue.push([root.left, n + 1]);
                 }
             }
-            return minSize === Infinity ? 0 : s.substring(minStart, minStart + minSize);
         };
-
-        minWindow("cabwefgewcwaefgcf", "cae")
+        const val = {
+                "val": 2,
+                "left": null,
+                "right": {
+                    "val": 3,
+                    "left": null,
+                    "right": {
+                        "val": 4,
+                        "left": null,
+                        "right": {
+                            "val": 5,
+                            "left": null,
+                            "right": {
+                                "val": 6,
+                                "left": null,
+                                "right": null
+                            }
+                        }
+                    }
+                }
+            }
+        minDepth(val)
     </script>
 </body>
 

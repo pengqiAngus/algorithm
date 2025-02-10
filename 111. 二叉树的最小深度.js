@@ -33,3 +33,23 @@ var minDepth = function (root) {
   }
   return minDepth;
 };
+
+
+var minDepth = function (root) {
+  if (!root) {
+    return 0;
+  }
+    const queue = [[root, 1]]
+    while (queue.length>0) {
+        const [root, n] = queue.shift();
+        if (!root?.left && !root?.right) {
+            return n 
+        }
+        if (root?.left) {
+            queue.push([root.left,n+1]);
+        }
+        if (root?.right) {
+            queue.push([root.left,n+1]);
+        }
+    }
+};
