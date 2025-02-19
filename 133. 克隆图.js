@@ -30,7 +30,3 @@ var cloneGraph = function (node) {
     }
     return clone
 };
-
-
-
-
