@@ -7,14 +7,14 @@
 </head>
 <body>
     <script>
-      
+   
        
         /**
          * @param {number[]} nums
          * @param {number} k
          * @return {number}
          */
-        var findKthLargest = function (nums, k) {
+        var topKFrequent = function (nums, k) {
              class MiniHeap {
                 constructor() {
                     this.heap = [];
@@ -35,61 +35,79 @@
                 heapUp(index) {
                     const parentIndex = this.getParentIndex(index);
                     const heap = this.heap;
-                    if (parentIndex >= 0 && heap[index] < heap[parentIndex]) {
+                    if (parentIndex >= 0 && heap[index].times < heap[parentIndex].times) {
                         this.swap(index, parentIndex);
                         this.heapUp(parentIndex);
                     }
                 }
                 heapDown(index) {
-                     let leftChildIndex = this.getLeftChildIndex(index);
-                     let rightChildIndex = this.getRightChildIndex(index);
-                     const heap = this.heap;
-                     let smallLestIndex = index;
+                    let leftChildIndex = this.getLeftChildIndex(index);
+                    let rightChildIndex = this.getRightChildIndex(index);
+                    const heap = this.heap;
+                    let smallLestIndex = index;
 
-                     if (
-                         rightChildIndex < heap.length &&
-                         heap[rightChildIndex] < heap[smallLestIndex]
-                     ) {
-                         smallLestIndex = rightChildIndex;
-                     }
-                     if (
-                         leftChildIndex < heap.length &&
-                         heap[leftChildIndex] < heap[smallLestIndex]
-                     ) {
-                         smallLestIndex = leftChildIndex;
-                     }
-                     if (smallLestIndex !== index) {
-                         this.swap(index, smallLestIndex);
-                         this.heapDown(smallLestIndex);
-                     }
-                 }
-               
-                insert(index) {
-                    this.heap.push(index);
+                    if (
+                        rightChildIndex < heap.length &&
+                        heap[rightChildIndex].times < heap[smallLestIndex].times
+                    ) {
+                        smallLestIndex = rightChildIndex;
+                    }
+                    if (
+                        leftChildIndex < heap.length &&
+                        heap[leftChildIndex].times < heap[smallLestIndex].times
+                    ) {
+                        smallLestIndex = leftChildIndex;
+                    }
+                    if (smallLestIndex !== index) {
+                        this.swap(index, smallLestIndex);
+                        this.heapDown(smallLestIndex);
+                    }
+                }
+                insert({ times, key }) {
+                    this.heap.push({ times, key });
                     this.heapUp(this.heap.length - 1);
+                }
+                size() {
+                    return this.heap.length;
+                }
+                isEmpty() {
+                    return this.heap.length === 0
                 }
                 extraMin() {
                     if (this.heap.length === 0) {
                         return null;
                     }
                     const minValue = this.heap[0];
-                    this.heap[0] = this.heap.pop();
-                    this.heapDown(0);
+                    const lastElement = this.heap.pop();
+                    if (!this.isEmpty()) {
+                        this.heap[0] = lastElement;
+                        this.heapDown(0);
+                    }
                     return minValue;
                 }
             }
+            
             const miniHeap = new MiniHeap();
+            const visited = new Map();
             for (let i = 0; i < nums.length; i++) {
-                if (miniHeap.heap.length < k) {
-                    miniHeap.insert(nums[i]);
-                } else if (nums[i] > miniHeap.heap[0]) {
-                    miniHeap.heap[0] = nums[i];
-                    miniHeap.heapDown(0);
-                }
+                visited.set(nums[i], (visited.get(nums[i]) || 0 )+ 1);
             }
-            return miniHeap.heap[0]
+            visited.forEach((times, key) => {
+                miniHeap.insert({ times, key });
+                if (miniHeap.size() > k) {
+                          miniHeap.extraMin();
+                } 
+            });
+            const array = [];
+            while (!miniHeap.isEmpty()) {
+                array.unshift(miniHeap.extraMin().key);
+            }
+            return array;
         };
-           findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6],4)
+
+        
+      const result=  topKFrequent([1, 1, 1, 2, 2, 3],2)
+      console.log('result', result);
     </script>
 </body>
 </html>
