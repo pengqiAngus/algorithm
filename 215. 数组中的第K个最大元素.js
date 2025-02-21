@@ -78,5 +78,3 @@ var findKthLargest = function (nums, k) {
  }
     return miniHeap.heap[0]
 };
-
-
