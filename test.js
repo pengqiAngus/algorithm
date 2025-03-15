@@ -1,22 +1,13 @@
-/**
- * @param {number[]} g
- * @param {number[]} s
- * @return {number}
- */
-var findContentChildren = function (g, s) {
-  g.sort((a, b) => a - b);
-  s.sort((a, b) => a - b);
-  let child = 0;
-  let content = 0;
-  let max = 0;
-  while (s.length < content && g.length < child) {
-    if (s[content] >= g[child]) {
-      child++;
-      content++;
-      max++;
-    } else {
-      child++;
+function knapsack(weights, values, capacity) {
+    const n = weights.length;
+    for (let i = 0; i < n; i++) {
+      for (let j = capacity; j >= weights[i]; j--) {
+        dp[j] = Math.max(dp[j],dp[j-weights[i]] + values[i])
+      }
     }
-  }
-  return max;
-};
+    return dp[capacity]
+}
+const weights = [2, 3, 4, 5];
+const values = [3, 4, 5, 6];
+const capacity = 5;
+console.log(knapsack(weights, values, capacity)); // 输出 7
