@@ -1,13 +1,21 @@
-function knapsack(weights, values, capacity) {
-    const n = weights.length;
-    for (let i = 0; i < n; i++) {
-      for (let j = capacity; j >= weights[i]; j--) {
-        dp[j] = Math.max(dp[j],dp[j-weights[i]] + values[i])
-      }
+function subsets(nums) {
+  const result = [];
+  const subset = [];
+    const bk = (start) => {
+        if (start===nums.length) {
+            result.push([...nums])
+            return;
+        }
+        for (let i = start; i < nums.length; i++) {
+            [nums[i],nums[start]] = [nums[start],nums[i]]
+            bk(start + 1);
+           [nums[start], nums[i]]=[(nums[i], nums[start])]; 
+        }
     }
-    return dp[capacity]
+    bk(0)
+    return result;
 }
-const weights = [2, 3, 4, 5];
-const values = [3, 4, 5, 6];
-const capacity = 5;
-console.log(knapsack(weights, values, capacity)); // 输出 7
+
+// 测试
+const nums = [1, 2, 3];
+console.log(subsets(nums));
