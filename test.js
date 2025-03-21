@@ -5,38 +5,35 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
- function ListNode(val, next) {
-   this.val = val === undefined ? 0 : val;
-   this.next = next === undefined ? null : next;
- }
-
 /**
- * @param {ListNode} l1
- * @param {ListNode} l2
+ * @param {ListNode} list1
+ * @param {ListNode} list2
  * @return {ListNode}
  */
-var addTwoNumbers = function (l1, l2) {
-    let upNumber = false
-    const l3 = new ListNode()
-    let l4 = l3;
-    while (l1 || l2 || upNumber) {
-        let number = 0;
-        if (l1) number += l1.val;
-        if (l2) number += l2.val;
-        if (upNumber) number+=1;
-        if (number>=10) {
-            number = number % 10
-            upNumber=true
-        } else {
-            upNumber =false
-        }
-        l1 = l1?.next;
-        l2 = l2?.next;
-        l4.next = {
-          val: number,
-          next:  null,
-        };
-        l4 = l4.next;
+var mergeTwoLists = function (list1, list2) {
+  let l3 = new ListNode();
+  let l4 = l3;
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      l4.next = {
+        val: list1.val,
+        next: null,
+      };
+      list1 = list1.next;
+    } else {
+      l4.next = {
+        val: list2.val,
+        next: null,
+      };
+      list2 = list2.next;
     }
-    return l3.next
+    l4 = l4.next;
+  }
+  if (list1) {
+    l4.next = list1;
+  }
+  if (list2) {
+    l4.next = list2;
+  }
+  return l3.next;
 };
