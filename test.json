@@ -1,0 +1,35 @@
+{
+  "type": "post",
+  "data": [
+    {
+      "id": 94,
+      "integrationIdentifier": "2025-03-19 07:52",
+      "source": "Non-Edge",
+      "status": "Cancelado",
+      "salesOrg": "BR10",
+      "soldTo": "1000002323",
+      "customerUserEmail": "tiago.reis1@example.com",
+      "clientId": null,
+      "customerName": "",
+      "closedAt": null,
+      "integrationCreatedAt": "2025-03-19 07:52",
+      "integrationUpdatedAt": "2025-03-19 07:52",
+      "complaintCategory": "Fornecimento & Entrega",
+      "complaintSubCategory": "test001 ",
+      "problem": "",
+      "problemDate": "",
+      "description": "",
+      "customerContactDescription": null,
+      "batch": "",
+      "invoice": "",
+      "productName": "SP767AVARIA",
+      "complaintQuantityValue": null,
+      "complaintQuantityUnit": "",
+      "whenProblemIdentified": "",
+      "packageOrSealNumber": "",
+      "stacking": null,
+      "tankNumber": "",
+      "coaDate": ""
+    }
+  ]
+}
