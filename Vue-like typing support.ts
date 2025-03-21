@@ -1,5 +1,5 @@
 type typeComputed<T> = T extends (...args: any[]) => infer P ? P : never;
-declare function SimpleVue<D, C, M>(options: {
+declare function SimpleVue<D extends Record<string, any>, C extends Record<string, any>, M extends Record<string, any>>(options: {
   data: (this: void) => D;
   computed: C & ThisType<{ [K in keyof C]: typeComputed<C[K]> }>;
   methods: M & ThisType<{ [K in keyof C]: typeComputed<C[K]> & M }>;
