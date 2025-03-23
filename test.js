@@ -1,39 +1,36 @@
 /**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
  *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
  * }
  */
 /**
- * @param {ListNode} list1
- * @param {ListNode} list2
- * @return {ListNode}
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {boolean}
  */
-var mergeTwoLists = function (list1, list2) {
-  let l3 = new ListNode();
-  let l4 = l3;
-  while (list1 && list2) {
-    if (list1.val <= list2.val) {
-      l4.next = {
-        val: list1.val,
-        next: null,
-      };
-      list1 = list1.next;
-    } else {
-      l4.next = {
-        val: list2.val,
-        next: null,
-      };
-      list2 = list2.next;
+var hasPathSum = function (root, targetSum) {
+  if (!root) {
+    return false;
+  }
+  const stack = [root];
+  while (stack.length) {
+    const node = stack.pop();
+    if (node.right) {
+      node.right.val += node.val;
+      stack.push(node.right);
     }
-    l4 = l4.next;
+    if (node.left) {
+      node.left.val += node.val;
+      stack.push(node.left);
+    }
+    if (!node.left && !node.right) {
+      if (node.val === targetSum) {
+        return true;
+      }
+    }
   }
-  if (list1) {
-    l4.next = list1;
-  }
-  if (list2) {
-    l4.next = list2;
-  }
-  return l3.next;
+  return false;
 };
