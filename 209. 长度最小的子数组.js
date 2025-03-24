@@ -1,16 +1,18 @@
 
 
-   var minSubArrayLen = function (target, nums) {
-     const n = nums.length;
-     let maxNum = Infinity;
-     let sum = 0; 
-     let left = 0; 
-     for (let right = 0; right < n; right++) {
-       sum += nums[right];
-       while (sum >= target) {
-         maxNum = Math.min(maxNum, right - left + 1);
-         sum -= nums[left++]; 
-       }
-     }
-     return maxNum <= n ? maxNum : 0;
-   };
+var minSubArrayLen = function (target, nums) {
+  let maxLen = Infinity;
+  let right = 0,
+    left = 0;
+  let sum = 0;
+  while (right < nums.length) {
+    sum += nums[right];
+    while (sum >= target) {
+      maxLen = Math.min(maxLen, right - left + 1);
+      sum -= nums[left];
+      left++;
+    }
+    right++;
+  }
+  return maxLen === Infinity ? 0 : maxLen;
+};
