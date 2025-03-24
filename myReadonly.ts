@@ -7,7 +7,7 @@ interface Todo {
   completed: boolean;
 }
 type myReadonly<T> = {
-  readonly [K in keyof T]: T[k];
+  readonly [K in keyof T]: T[K];
 };
 type myReadonly2<T, K extends keyof T> = {
   readonly [M in K]: T[M];
