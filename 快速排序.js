@@ -2,8 +2,8 @@ const quickSort = (array) => {
   if (array.length <= 1) {
     return array;
   }
-    const middle = Math.floor(array.length/2)
-  const pivot = array.slice(middle,1)[0];
+  const middle = Math.floor(array.length / 2);
+  const pivot = array.splice(middle, 1)[0];
   const left = [];
   const right = [];
   for (let i = 0; i < array.length; i++) {

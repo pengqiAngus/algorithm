@@ -12,3 +12,4 @@ const insertSort = (array) => {
   return array;
 };
 console.log(insertSort([64, 34, 25, 12, 22, 11, 90]));
+
