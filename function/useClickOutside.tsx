@@ -11,7 +11,8 @@ export const useOutsideHooks = (callback:Function) => {
         return () => {
             document.removeEventListener('mousedown',clickOutSide)
         }
-    },[callback])
+    }, [callback])
+    return ref;
 }
 
 export const App = () => {

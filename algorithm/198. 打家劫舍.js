@@ -18,7 +18,7 @@ var rob = function (nums) {
   return dp[nums.length - 1];
 };
 
-var rob = function (nums) {
+var rob2 = function (nums) {
   if (nums.length === 1) {
     return nums[0];
   }
