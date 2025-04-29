@@ -19,3 +19,4 @@ function generateParenthesis(n) {
 // 测试示例
 const n = 3;
 console.log(generateParenthesis(n));
+

@@ -15,3 +15,6 @@ function solution(A) {
   maxLength = Math.max(maxLength, currentLength);
   return maxLength;
 }
+
+
+
