@@ -1,41 +1,45 @@
-class TimeLimit {
-  cache: Map<string | number, { value: Number; expire: number }>;
+class TimeLimitCache {
+  private cache: Map<number | string, { value: number; expiration: number }>;
+
   constructor() {
     this.cache = new Map();
   }
-  set(key: number | string, value: number, expire:number) {
-    let exist = false;
+
+  set(key: number | string, value: number, duration: number): boolean {
     const now = Date.now();
+    let existed = false;
     if (this.cache.has(key)) {
       const data = this.cache.get(key);
-      if (data && data.expire > now) {
-        exist = true;
+      if (data && data.expiration > now) {
+        existed = true;
       }
     }
-    this.cache.set(key, { value, expire: now+expire });
-    return exist;
+    this.cache.set(key, { value, expiration: now + duration });
+    return existed;
   }
-  get(key: number | string) {
+
+  get(key: number | string): number {
     const now = Date.now();
-    if (this.cache.has(key)) {
-      const data = this.cache.get(key);
-      if (data && data.expire > now) {
-        return data.value;
-      }
+    const data = this.cache.get(key);
+    if (data && data.expiration > now) {
+      return data.value;
     }
     return -1;
   }
-  count() {
+
+  count(): number {
+    const now = Date.now();
     let count = 0;
-    for (const [_, item] of this.cache) {
-      if (item.expire > Date.now()) {
+    for (const [_, data] of this.cache) {
+      if (data.expiration > now) {
         count++;
       }
     }
     return count;
   }
 }
-const cache = new TimeLimit();
+
+const cache = new TimeLimitCache();
 cache.set("a", 1, 3000);
 cache.set("b", 2, 4000);
 cache.set("c", 3, 5000);
