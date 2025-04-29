@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>连接 MetaMask 钱包</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <h1 class="text-2xl font-bold mb-4 text-center">连接 MetaMask 钱包</h1>
+      <button
+        id="connectButton"
+        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full"
+      >
+        <i class="fa-brands fa-ethereum mr-2"></i>连接 MetaMask
+      </button>
+      <p id="accountDisplay" class="mt-4 text-center text-gray-600"></p>
+    </div>
+
     <script>
-      const data = [7, 1, 5, 3, 6, 4];
-  /**
- * @param {number[]} prices
- * @return {number}
- */ 
-    var maxProfit = function (prices) {
-        let holdStack = false;
-        let profit = 0;
-        for (let i = 0; i < prices.length; i++) {
-            if (!holdStack) {
-                if (prices[i] < prices[i + 1]) {
-                    profit -= prices[i]
-                holdStack = true
+      const connectButton = document.getElementById("connectButton");
+      const accountDisplay = document.getElementById("accountDisplay");
 
-                }
-            } else {
-                if (prices[i] > prices[i + 1] || i === prices.length - 1) {
-                    profit += prices[i]
-                  holdStack = false
-                }
-            }
+      connectButton.addEventListener("click", async () => {
+        if (typeof window.ethereum === "undefined") {
+          alert("请安装 MetaMask 钱包！");
+          return;
         }
-        return profit
-    };
 
-
-            const res= maxProfit(data)
-   console.log(res);
-   
+        try {
+          const accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+          });
+          const account = accounts[0];
+          accountDisplay.textContent = `已连接账户: ${account}`;
+        } catch (error) {
+          console.error("连接 MetaMask 时出错:", error);
+          alert("连接 MetaMask 时出错，请重试。");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
