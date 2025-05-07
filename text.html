@@ -3,48 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>连接 MetaMask 钱包</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      rel="stylesheet"
-    />
+    <title>Video Playback</title>
+    <!-- 引入 HLS.js 库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/hls.js/1.5.18/hls.js"></script>
   </head>
 
-  <body class="bg-gray-100 flex justify-center items-center h-screen">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-4 text-center">连接 MetaMask 钱包</h1>
-      <button
-        id="connectButton"
-        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full"
-      >
-        <i class="fa-brands fa-ethereum mr-2"></i>连接 MetaMask
-      </button>
-      <p id="accountDisplay" class="mt-4 text-center text-gray-600"></p>
-    </div>
-
+  <body>
+    <video id="video" width="640" height="360" controls></video>
     <script>
-      const connectButton = document.getElementById("connectButton");
-      const accountDisplay = document.getElementById("accountDisplay");
+      const video = document.getElementById("video");
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        // 替换为实际的 HLS 流地址
+        hls.loadSource(
+          "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+        );
+        console.log(hls);
 
-      connectButton.addEventListener("click", async () => {
-        if (typeof window.ethereum === "undefined") {
-          alert("请安装 MetaMask 钱包！");
-          return;
-        }
-
-        try {
-          const accounts = await window.ethereum.request({
-            method: "eth_requestAccounts",
-          });
-          const account = accounts[0];
-          accountDisplay.textContent = `已连接账户: ${account}`;
-        } catch (error) {
-          console.error("连接 MetaMask 时出错:", error);
-          alert("连接 MetaMask 时出错，请重试。");
-        }
-      });
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play();
+        });
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = "https://example.com/your-stream.m3u8";
+        video.addEventListener("loadedmetadata", function () {
+          video.play();
+        });
+      }
     </script>
   </body>
 </html>
